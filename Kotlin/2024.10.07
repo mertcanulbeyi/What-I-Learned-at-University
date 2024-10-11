@@ -1,0 +1,45 @@
+// function'ların ilk bakacağı yer main olduğu için ilk öncelikle "fun main" oluştururuz...
+
+fun main () {
+    println("Hello World")
+    print("Merhaba Dünya")      // bilgiyi yan yana yazmanı sağlıyor
+    print(" Ben mert  -  ")
+
+    println("Hello World")      // bilgiyi yazdırdıktan sonra imleci yeni satırdan devam ediyor...
+    println("Merhaba Dünya")
+    println(" Ben Mert")
+    println("\n------------\n")
+
+
+    println("Dokuz Eylül Üniversitesi")
+    print("IMYO")
+    print("  -  ")
+    println("İzmir Meslek Yüksekokulu")
+    println("Bilgisayar Programcılığı")
+    println("\n------------\n")           // \n kaçış karakteri: Yeni satıra geç demektir...
+
+
+    println("Hello World")
+    println("\t Hello IMYO \n")           // \t kaçış karakteri: Bir tab mesafesi bırakır...
+    println("\n------------\n")
+
+
+    println("İzmir\\Bornova")               // \\ kaçış karakteri:  "\" kullanmanı sağlar.
+    println("\n------------\n")
+
+
+    println("Ulbeyi \rMertcan")             // \r kaçış karakteri: Ulbeyi'yi yazıyor. Daha sonra
+    println("\n------------\n")             //                     satır başından Mertcan yazıyor...
+
+
+    println("Hello World!\b\bIMYO")         // kaç tane \b koyarsan geriye doğru o kadar karakter siler
+    println("\n------------\n")
+
+
+    println("Hello World! \"IMYO\"")         // \" kaçış karakteri:  tırnak işaretini kullanmanı sağlar...
+    println("\n------------\n")
+
+
+    println("Dokuz Eylül Üniversitesi \rDEÜ \nIMYO \nBilgisayar Programcılığı \n\"Kotlin\" Öğreniyorum")
+
+}
