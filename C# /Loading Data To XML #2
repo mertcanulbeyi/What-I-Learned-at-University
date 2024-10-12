@@ -3,7 +3,7 @@
             string s;
             XmlDocument doc = new XmlDocument();
 
-            doc.Load("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+            doc.Load("\\KimlikBilgileriKayit\\vatandaslar.xml");
 
             XmlElement vatandas = doc.CreateElement("vatandas");
             s = textBox1.Text;
@@ -42,7 +42,7 @@
 
             doc.DocumentElement.AppendChild(vatandas);
 
-            doc.Save("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+            doc.Save("\\KimlikBilgileriKayit\\vatandaslar.xml");
 
             MessageBox.Show("Dosya yüklendi");
         }
