@@ -1,0 +1,75 @@
+private void button1_Click(object sender, EventArgs e)
+{
+    string s;
+    XmlDocument doc = new XmlDocument();
+
+    doc.Load("C:\\Users\\mertc\\Desktop\\ogrenciler.xml");
+
+    XmlElement ogrenci = doc.CreateElement("ogrenci");
+    s = textBox1.Text;
+    ogrenci.SetAttribute("tc_no", s);
+
+    XmlNode okul_no = doc.CreateNode(XmlNodeType.Element, "okul_no", "");
+    okul_no.InnerText = textBox2.Text;
+    ogrenci.AppendChild(okul_no);
+
+    XmlNode ad_soyad = doc.CreateNode(XmlNodeType.Element, "ad_soyad", "");
+    ad_soyad.InnerText = textBox3.Text;
+    ogrenci.AppendChild(ad_soyad);
+
+    XmlNode adres = doc.CreateNode(XmlNodeType.Element, "adres", "");
+    adres.InnerText = textBox4.Text;
+    ogrenci.AppendChild(adres);
+
+    XmlNode anne_adi = doc.CreateNode(XmlNodeType.Element, "anne_adi", "");
+    anne_adi.InnerText = textBox5.Text;
+    ogrenci.AppendChild(anne_adi);
+
+    XmlNode baba_adi = doc.CreateNode(XmlNodeType.Element, "baba_adi", "");
+    baba_adi.InnerText = textBox6.Text;
+    ogrenci.AppendChild(baba_adi);
+
+    XmlNode dogum_yer = doc.CreateNode(XmlNodeType.Element, "dogum_yer", "");
+    dogum_yer.InnerText = textBox7.Text;
+    ogrenci.AppendChild(dogum_yer);
+
+    XmlNode dogum_tarih = doc.CreateNode(XmlNodeType.Element, "dogum_tarih", "");
+    dogum_tarih.InnerText = textBox8.Text;
+    ogrenci.AppendChild(dogum_tarih);
+
+    XmlNode bolum = doc.CreateNode(XmlNodeType.Element, "bolum", "");
+    bolum.InnerText = textBox9.Text;
+    ogrenci.AppendChild(bolum);
+
+    XmlNode sinif = doc.CreateNode(XmlNodeType.Element, "sinif", "");
+    sinif.InnerText = textBox10.Text;
+    ogrenci.AppendChild(sinif);
+
+    XmlNode ders_kod = doc.CreateNode(XmlNodeType.Element, "ders_kod", "");
+    ders_kod.InnerText = textBox11.Text;
+    ogrenci.AppendChild(ders_kod);
+
+    XmlNode ders_ad = doc.CreateNode(XmlNodeType.Element, "ders_ad", "");
+    ders_ad.InnerText = textBox12.Text;
+    ogrenci.AppendChild(ders_ad);
+
+    XmlNode vize = doc.CreateNode(XmlNodeType.Element, "vize", "");
+    vize.InnerText = textBox13.Text;
+    ogrenci.AppendChild(vize);
+
+
+    XmlNode final = doc.CreateNode(XmlNodeType.Element, "final", "");
+    final.InnerText = textBox14.Text;
+    ogrenci.AppendChild(final);
+
+    XmlNode b_notu = doc.CreateNode(XmlNodeType.Element, "b_notu", "");
+    b_notu.InnerText = textBox15.Text;
+    ogrenci.AppendChild(b_notu);
+
+
+    doc.DocumentElement.AppendChild(ogrenci);
+
+    doc.Save("C:\\Users\\mertc\\Desktop\\ogrenciler.xml");
+
+    MessageBox.Show("Dosya yüklendi");
+}
