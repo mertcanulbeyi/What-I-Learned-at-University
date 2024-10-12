@@ -1,0 +1,48 @@
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string s;
+            XmlDocument doc = new XmlDocument();
+
+            doc.Load("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+
+            XmlElement vatandas = doc.CreateElement("vatandas");
+            s = textBox1.Text;
+            vatandas.SetAttribute("tc_no", s);
+
+            XmlNode ad = doc.CreateNode(XmlNodeType.Element, "ad", "");
+            ad.InnerText = textBox2.Text;
+            vatandas.AppendChild(ad);
+
+            XmlNode soyad = doc.CreateNode(XmlNodeType.Element, "soyad", "");
+            soyad.InnerText = textBox3.Text;
+            vatandas.AppendChild(soyad);
+
+            XmlNode d_tarih = doc.CreateNode(XmlNodeType.Element, "d_tarih", "");
+            d_tarih.InnerText = (dateTimePicker1.Value).ToString();
+            vatandas.AppendChild(d_tarih);
+
+            XmlNode seri_no = doc.CreateNode(XmlNodeType.Element, "seri_no", "");
+            seri_no.InnerText = textBox4.Text;
+            vatandas.AppendChild(seri_no);
+
+            XmlNode anne = doc.CreateNode(XmlNodeType.Element, "anne", "");
+            anne.InnerText = textBox5.Text;
+            vatandas.AppendChild(anne);
+
+            XmlNode baba = doc.CreateNode(XmlNodeType.Element, "baba", "");
+            baba.InnerText = textBox6.Text;
+            vatandas.AppendChild(baba);
+
+            XmlNode cin = doc.CreateNode(XmlNodeType.Element, "cin", "");
+            if (radioButton1.Checked) s = "Kadın";
+            else s = "Erkek";
+            cin.InnerText = s;
+            vatandas.AppendChild(cin);
+
+
+            doc.DocumentElement.AppendChild(vatandas);
+
+            doc.Save("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+
+            MessageBox.Show("Dosya yüklendi");
+        }
