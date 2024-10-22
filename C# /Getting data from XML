@@ -1,0 +1,153 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml;
+
+namespace KimlikBilgileriKayit
+{
+    public partial class Form1 : Form
+    {
+        XmlDocument doc = new XmlDocument();
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string s;
+
+            doc.Load("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+
+            XmlElement vatandas = doc.CreateElement("vatandas");
+            s = textBox1.Text;
+            vatandas.SetAttribute("tc_no", s);
+
+            XmlNode ad = doc.CreateNode(XmlNodeType.Element, "ad", "");
+            ad.InnerText = textBox2.Text;
+            vatandas.AppendChild(ad);
+
+            XmlNode soyad = doc.CreateNode(XmlNodeType.Element, "soyad", "");
+            soyad.InnerText = textBox3.Text;
+            vatandas.AppendChild(soyad);
+
+            XmlNode d_tarih = doc.CreateNode(XmlNodeType.Element, "d_tarih", "");
+            d_tarih.InnerText = (dateTimePicker1.Value.Date).ToString();
+            vatandas.AppendChild(d_tarih);
+
+            XmlNode seri_no = doc.CreateNode(XmlNodeType.Element, "seri_no", "");
+            seri_no.InnerText = textBox4.Text;
+            vatandas.AppendChild(seri_no);
+
+            XmlNode anne = doc.CreateNode(XmlNodeType.Element, "anne", "");
+            anne.InnerText = textBox5.Text;
+            vatandas.AppendChild(anne);
+
+            XmlNode baba = doc.CreateNode(XmlNodeType.Element, "baba", "");
+            baba.InnerText = textBox6.Text;
+            vatandas.AppendChild(baba);
+
+            XmlNode cin = doc.CreateNode(XmlNodeType.Element, "cin", "");
+            if (radioButton1.Checked) s = "Kadın";
+            else s = "Erkek";
+            cin.InnerText = s;
+            vatandas.AppendChild(cin);
+
+
+            doc.DocumentElement.AppendChild(vatandas);
+
+            doc.Save("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+
+            MessageBox.Show("Dosya yüklendi");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            int kisisayisi = Convert.ToInt16(Microsoft.VisualBasic.Interaction.InputBox("Kaç Kişi Girilecek?", "Kişi Sayısı")); 
+
+            for (int i = 0; i < kisisayisi; i++)
+            {
+                doc.Load("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");
+
+                string s;
+                XmlElement vatandas = doc.CreateElement("vatandas");
+                s = Microsoft.VisualBasic.Interaction.InputBox("T.C Numarası", "Bilgi Girişi");
+                vatandas.SetAttribute("tc_no", s);
+
+                XmlNode ad = doc.CreateNode(XmlNodeType.Element, "ad", "");
+                ad.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Ad", "Bilgi Girişi", "");
+                vatandas.AppendChild(ad);
+
+                XmlNode soyad = doc.CreateNode(XmlNodeType.Element, "soyad", "");
+                soyad.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Soyad", "Bilgi Girişi", "");
+                vatandas.AppendChild(soyad);
+
+                XmlNode seri_no = doc.CreateNode(XmlNodeType.Element, "seri_no", "");
+                seri_no.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Seri No:", "Bilgi Girişi", "");
+                vatandas.AppendChild(seri_no);
+
+                XmlNode anne = doc.CreateNode(XmlNodeType.Element, "anne", "");
+                anne.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Anne", "Bilgi Girişi", "");
+                vatandas.AppendChild(anne);
+
+                XmlNode baba = doc.CreateNode(XmlNodeType.Element, "baba", "");
+                baba.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Baba", "Bilgi Girişi", "");
+                vatandas.AppendChild(baba);
+
+                XmlNode cin = doc.CreateNode(XmlNodeType.Element, "cin", "");
+                cin.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Cinsiyet", "Bilgi Girişi", "");
+                vatandas.AppendChild(cin);
+
+                XmlNode d_tarih = doc.CreateNode(XmlNodeType.Element, "d_tarih", "");
+                d_tarih.InnerText = Microsoft.VisualBasic.Interaction.InputBox("Doğum Tarihi", "Bilgi Girişi", "");
+                vatandas.AppendChild(d_tarih);
+
+
+
+                doc.DocumentElement.AppendChild(vatandas);
+
+                doc.Save("C:\\Users\\mertc\\source\\repos\\KimlikBilgileriKayit\\vatandaslar.xml");    
+            }
+
+            MessageBox.Show("Dosya yüklendi");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();   //bu da benim eklediğim bir kod 
+
+            doc.Load(@"C:\Users\mertc\source\repos\KimlikBilgileriKayit\vatandaslar.xml");
+
+            XmlNodeList liste = doc.GetElementsByTagName("vatandas");
+
+            foreach (XmlNode vatandas in liste)
+            {
+                string tc_no = vatandas.Attributes["tc_no"].Value;
+                string ad = vatandas["ad"].FirstChild.Value;
+                string soyad = vatandas["soyad"].FirstChild.Value;
+                string d_tarih = vatandas["d_tarih"].FirstChild.Value;
+
+                listBox1.Items.Add("T.C No: " + tc_no);
+                listBox1.Items.Add("Ad: " + ad);
+                listBox1.Items.Add("Soyad: " + soyad);
+                listBox1.Items.Add("Doğum Tarihi: " + d_tarih);
+                listBox1.Items.Add("  ");
+            }
+        }
+
+        
+    }
+}
