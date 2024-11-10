@@ -1,0 +1,150 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml;
+using ClassLibrary2;
+using Microsoft.Win32;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace WindowsFormsApp1
+{
+    public partial class Form1 : Form
+    {
+        XmlDocument oge = new XmlDocument();
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Registry.CurrentUser.CreateSubKey("A").CreateSubKey("B").CreateSubKey("C").CreateSubKey("D");
+
+            listView1.View = View.Details;
+            listView1.Columns.Add("OgrNo");
+            listView1.Columns.Add("Ad");
+            listView1.Columns.Add("Soyad");
+            listView1.Columns.Add("DKod");
+            listView1.Columns.Add("DAd");
+            listView1.Columns.Add("V1");
+            listView1.Columns.Add("V2");
+            listView1.Columns.Add("F");
+            listView1.Columns.Add("BNot");
+            listView1.Columns.Add("HNot");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int v1 = int.Parse(textBox5.Text);
+            int v2 = int.Parse(textBox6.Text);
+            int f = int.Parse(textBox7.Text);
+
+            Hesaplamalar hesapla = new Hesaplamalar();
+            int sonuc = hesapla.BasariNotu(v1, v2, f);
+            textBox8.Text = sonuc.ToString();
+
+            string harf = hesapla.HarfNotu(sonuc);
+            textBox9.Text = harf;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string s;
+
+            oge.Load("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
+
+            //C:\Users\mertc\Desktop\yazılım\3. Dönem\Nesne Tabanlı Programlama 2\ödevler\2024.11.07\WindowsFormsApp1\WindowsFormsApp1\bin\Debug
+
+            XmlElement ogrenci = oge.CreateElement("ogrenci");
+            s = textBox10.Text;
+            ogrenci.SetAttribute("ogrNo", s);
+
+            XmlNode ad = oge.CreateNode(XmlNodeType.Element, "ad", "");
+            ad.InnerText = textBox1.Text;
+            ogrenci.AppendChild(ad);
+
+            XmlNode soyad = oge.CreateNode(XmlNodeType.Element, "soyad", "");
+            soyad.InnerText = textBox2.Text;
+            ogrenci.AppendChild(soyad);
+
+            XmlNode dKod = oge.CreateNode(XmlNodeType.Element, "dKod", "");
+            dKod.InnerText = textBox3.Text;
+            ogrenci.AppendChild(dKod);
+
+            XmlNode dAd = oge.CreateNode(XmlNodeType.Element, "dAd", "");
+            dAd.InnerText = textBox4.Text;
+            ogrenci.AppendChild(dAd);
+
+            XmlNode v1 = oge.CreateNode(XmlNodeType.Element, "v1", "");
+            v1.InnerText = textBox5.Text;
+            ogrenci.AppendChild(v1);
+
+            XmlNode v2 = oge.CreateNode(XmlNodeType.Element, "v2", "");
+            v2.InnerText = textBox6.Text;
+            ogrenci.AppendChild(v2);
+
+            XmlNode f = oge.CreateNode(XmlNodeType.Element, "f", "");
+            f.InnerText = textBox7.Text;
+            ogrenci.AppendChild(f);
+
+            XmlNode bNot = oge.CreateNode(XmlNodeType.Element, "bNot", "");
+            bNot.InnerText = textBox8.Text;
+            ogrenci.AppendChild(bNot);
+
+            XmlNode hNot = oge.CreateNode(XmlNodeType.Element, "hNot", "");
+            hNot.InnerText = textBox9.Text;
+            ogrenci.AppendChild(hNot);
+
+            oge.DocumentElement.AppendChild(ogrenci);
+            oge.Save("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
+
+            MessageBox.Show("Öğrenci Başarılı Bir Şekilde Kayıt Edildi...");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+
+            oge.Load("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
+
+            XmlNodeList liste = oge.GetElementsByTagName("ogrenci");
+
+            foreach (XmlNode ogrenci in liste)
+            {
+                string ogrNo = ogrenci.Attributes["ogrNo"].Value;
+                string ad = ogrenci["ad"].FirstChild.Value;
+                string soyad = ogrenci["soyad"].FirstChild.Value;
+                string dKod = ogrenci["dKod"].FirstChild.Value;
+                string dAd = ogrenci["dAd"].FirstChild.Value;
+                string v1 = ogrenci["v1"].FirstChild.Value;
+                string v2 = ogrenci["v2"].FirstChild.Value;
+                string f = ogrenci["f"].FirstChild.Value;
+                string bNot = ogrenci["bNot"].FirstChild.Value;
+                string hNot = ogrenci["hNot"].FirstChild.Value;
+
+
+                ListViewItem item = new ListViewItem(ogrNo);
+                item.SubItems.Add(ad);
+                item.SubItems.Add(soyad);
+                item.SubItems.Add(dKod);
+                item.SubItems.Add(dAd);
+                item.SubItems.Add(v1);
+                item.SubItems.Add(v2);
+                item.SubItems.Add(f);
+                item.SubItems.Add(bNot);
+                item.SubItems.Add(hNot);
+
+
+                listView1.Items.Add(item);
+            }
+
+        }
+    }
+}
