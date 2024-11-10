@@ -27,6 +27,8 @@ namespace WindowsFormsApp1
         {
             Registry.CurrentUser.CreateSubKey("A").CreateSubKey("B").CreateSubKey("C").CreateSubKey("D");
 
+                    // Register'da gerekli dosyaları oluşturduk
+
             listView1.View = View.Details;
 
             if (listView1.Columns.Count == 0)
@@ -63,6 +65,8 @@ namespace WindowsFormsApp1
             {
                 MessageBox.Show("Lütfen Girdiğiniz Değerleri Kontrol Ediniz...");
             }
+
+                    // Buradaki if - else yapısı girilen notların doğru birer tam sayı olup olmadığını kontrol eder.
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -71,7 +75,7 @@ namespace WindowsFormsApp1
 
             oge.Load("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
 
-            //C:\Users\mertc\Desktop\yazılım\3. Dönem\Nesne Tabanlı Programlama 2\ödevler\2024.11.07\WindowsFormsApp1\WindowsFormsApp1\bin\Debug
+           
 
             XmlElement ogrenci = oge.CreateElement("ogrenci");
             s = textBox10.Text;
@@ -87,6 +91,9 @@ namespace WindowsFormsApp1
             ogrenci.AppendChild(CreateXmlNode("bNot", textBox8.Text));
             ogrenci.AppendChild(CreateXmlNode("hNot", textBox9.Text));
 
+                    // Yukarıdaki 9 satır kodu normalde en az 27 satır kod olarak yazacaktık 
+                    // Ama biz aşağıda bir metot tanımlayarak olayı azalttık.
+
 
             oge.DocumentElement.AppendChild(ogrenci);
             oge.Save("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
@@ -95,6 +102,9 @@ namespace WindowsFormsApp1
 
             if (s == null || s == "") sifre = "1";
             else sifre = s;
+                
+                // Buradaki if - else yapısı şifre girilip girilmediğini kontrol ediyor...
+
 
             Registry.CurrentUser.OpenSubKey("A", true)?.OpenSubKey("B", true)?.OpenSubKey("C", true)?.OpenSubKey("D", true).SetValue("ogrSfr", sifre);
 
@@ -110,6 +120,10 @@ namespace WindowsFormsApp1
                 .OpenSubKey("C", true)?
                 .OpenSubKey("D", true)?
                 .GetValue("ogrSfr", null)?.ToString();
+
+                // Buradaki soru işaretleri var mı, yok mu sorusunun cevabını sağlıyor...
+
+
 
             if (sifre == dsifre)
             {
