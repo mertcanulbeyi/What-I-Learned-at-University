@@ -28,30 +28,41 @@ namespace WindowsFormsApp1
             Registry.CurrentUser.CreateSubKey("A").CreateSubKey("B").CreateSubKey("C").CreateSubKey("D");
 
             listView1.View = View.Details;
-            listView1.Columns.Add("OgrNo");
-            listView1.Columns.Add("Ad");
-            listView1.Columns.Add("Soyad");
-            listView1.Columns.Add("DersKod");
-            listView1.Columns.Add("DersAd");
-            listView1.Columns.Add("Vize1");
-            listView1.Columns.Add("Vize2");
-            listView1.Columns.Add("Final");
-            listView1.Columns.Add("BasarıNot");
-            listView1.Columns.Add("HarfNot");
+
+            if (listView1.Columns.Count == 0)
+            {
+                listView1.Columns.Add("OgrNo");
+                listView1.Columns.Add("Ad");
+                listView1.Columns.Add("Soyad");
+                listView1.Columns.Add("DersKod");
+                listView1.Columns.Add("DersAd");
+                listView1.Columns.Add("Vize1");
+                listView1.Columns.Add("Vize2");
+                listView1.Columns.Add("Final");
+                listView1.Columns.Add("BasarıNot");
+                listView1.Columns.Add("HarfNot");
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int v1 = int.Parse(textBox5.Text);
-            int v2 = int.Parse(textBox6.Text);
-            int f = int.Parse(textBox7.Text);
+            int v1, v2, f;
 
-            Hesaplamalar hesapla = new Hesaplamalar();
-            int sonuc = hesapla.BasariNotu(v1, v2, f);
-            textBox8.Text = sonuc.ToString();
+            if (int.TryParse(textBox5.Text, out v1) && int.TryParse(textBox6.Text, out v2) && int.TryParse(textBox7.Text, out f))
+            {
+                Hesaplamalar hesapla = new Hesaplamalar();
+                int sonuc = hesapla.BasariNotu(v1, v2, f);
+                textBox8.Text = sonuc.ToString();
 
-            string harf = hesapla.HarfNotu(sonuc);
-            textBox9.Text = harf;
+                string harf = hesapla.HarfNotu(sonuc);
+                textBox9.Text = harf;
+            }
+
+            else
+            {
+                MessageBox.Show("Lütfen Girdiğiniz Değerleri Kontrol Ediniz...");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -60,50 +71,31 @@ namespace WindowsFormsApp1
 
             oge.Load("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
 
+            //C:\Users\mertc\Desktop\yazılım\3. Dönem\Nesne Tabanlı Programlama 2\ödevler\2024.11.07\WindowsFormsApp1\WindowsFormsApp1\bin\Debug
+
             XmlElement ogrenci = oge.CreateElement("ogrenci");
             s = textBox10.Text;
             ogrenci.SetAttribute("ogrNo", s);
 
-            XmlNode ad = oge.CreateNode(XmlNodeType.Element, "ad", "");
-            ad.InnerText = textBox1.Text;
-            ogrenci.AppendChild(ad);
+            ogrenci.AppendChild(CreateXmlNode("ad", textBox1.Text));
+            ogrenci.AppendChild(CreateXmlNode("soyad", textBox2.Text));
+            ogrenci.AppendChild(CreateXmlNode("dKod", textBox3.Text));
+            ogrenci.AppendChild(CreateXmlNode("dAd", textBox4.Text));
+            ogrenci.AppendChild(CreateXmlNode("v1", textBox5.Text));
+            ogrenci.AppendChild(CreateXmlNode("v2", textBox6.Text));
+            ogrenci.AppendChild(CreateXmlNode("f", textBox7.Text));
+            ogrenci.AppendChild(CreateXmlNode("bNot", textBox8.Text));
+            ogrenci.AppendChild(CreateXmlNode("hNot", textBox9.Text));
 
-            XmlNode soyad = oge.CreateNode(XmlNodeType.Element, "soyad", "");
-            soyad.InnerText = textBox2.Text;
-            ogrenci.AppendChild(soyad);
-
-            XmlNode dKod = oge.CreateNode(XmlNodeType.Element, "dKod", "");
-            dKod.InnerText = textBox3.Text;
-            ogrenci.AppendChild(dKod);
-
-            XmlNode dAd = oge.CreateNode(XmlNodeType.Element, "dAd", "");
-            dAd.InnerText = textBox4.Text;
-            ogrenci.AppendChild(dAd);
-
-            XmlNode v1 = oge.CreateNode(XmlNodeType.Element, "v1", "");
-            v1.InnerText = textBox5.Text;
-            ogrenci.AppendChild(v1);
-
-            XmlNode v2 = oge.CreateNode(XmlNodeType.Element, "v2", "");
-            v2.InnerText = textBox6.Text;
-            ogrenci.AppendChild(v2);
-
-            XmlNode f = oge.CreateNode(XmlNodeType.Element, "f", "");
-            f.InnerText = textBox7.Text;
-            ogrenci.AppendChild(f);
-
-            XmlNode bNot = oge.CreateNode(XmlNodeType.Element, "bNot", "");
-            bNot.InnerText = textBox8.Text;
-            ogrenci.AppendChild(bNot);
-
-            XmlNode hNot = oge.CreateNode(XmlNodeType.Element, "hNot", "");
-            hNot.InnerText = textBox9.Text;
-            ogrenci.AppendChild(hNot);
 
             oge.DocumentElement.AppendChild(ogrenci);
             oge.Save("C:\\Users\\mertc\\Desktop\\xmlOdevleri\\ogrenciler7Kasım.xml");
 
-            sifre = textBox11.Text;
+            s = textBox11.Text;
+
+            if (s == null || s == "") sifre = "1";
+            else sifre = s;
+
             Registry.CurrentUser.OpenSubKey("A", true)?.OpenSubKey("B", true)?.OpenSubKey("C", true)?.OpenSubKey("D", true).SetValue("ogrSfr", sifre);
 
             MessageBox.Show("Öğrenci Başarılı Bir Şekilde Kayıt Edildi...");
@@ -112,7 +104,12 @@ namespace WindowsFormsApp1
         private void button3_Click(object sender, EventArgs e)
         {
             string sifre = textBox12.Text;
-            string dsifre = Registry.CurrentUser.OpenSubKey("A", true)?.OpenSubKey("B", true)?.OpenSubKey("C", true)?.OpenSubKey("D", true).GetValue("ogrSfr").ToString();
+            string dsifre = Registry.CurrentUser
+                .OpenSubKey("A", true)?
+                .OpenSubKey("B", true)?
+                .OpenSubKey("C", true)?
+                .OpenSubKey("D", true)?
+                .GetValue("ogrSfr", null)?.ToString();
 
             if (sifre == dsifre)
             {
@@ -155,9 +152,11 @@ namespace WindowsFormsApp1
 
         }
 
-        private void label12_Click(object sender, EventArgs e)
+        private XmlNode CreateXmlNode(string name, string innerText)
         {
-
+            XmlNode node = oge.CreateNode(XmlNodeType.Element, name, "");
+            node.InnerText = innerText;
+            return node;
         }
     }
 }
